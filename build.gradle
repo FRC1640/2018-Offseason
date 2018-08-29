@@ -23,6 +23,12 @@ deploy {
     }
 }
 
+repositories {
+    mavenCentral()
+    // jcenter()
+    // google()
+}
+
 // Defining my dependencies. In this case, WPILib (+ friends), CTRE Phoenix (Talon SRX)
 // and NavX.
 dependencies {
@@ -30,6 +36,8 @@ dependencies {
     compile ctre()
     compile navx()
     compile openrio.powerup.matchData()
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '1.10.19'
+    testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.7.4'
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')

@@ -23,6 +23,7 @@ Other GradleRIO information can be found [here](https://github.com/wpilibsuite/G
 ## Git Commands
 
 - ```git clone https://github.com/FRC1640/2018-Offseason.git``` - Clone this repository to your local pc.
+- ```git pull``` - Pulls the latest changes down from the remote repository.
 
 - ```git checkout [branch_name]``` - Checkout a branch with name "branch_name."
 - ```git branch -l``` - List local branches on your computer.

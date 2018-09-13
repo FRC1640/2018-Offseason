@@ -6,7 +6,6 @@ bin/
 
 .classpath
 .project
-CODEOWNERS
 
 *.iml
 *.ipr

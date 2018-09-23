@@ -1,7 +1,5 @@
 package frc.team1640.robot;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
-
 public class RobotImpl extends Robot {
 
 	Controller controller;

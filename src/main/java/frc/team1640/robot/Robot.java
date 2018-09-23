@@ -4,13 +4,17 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class Robot extends IterativeRobot {
 
+	Controller controller;
+	SwerveController swerveController;
+
 	/**
 	 * This method is called once when the robot first starts up. 
 	 * Initialize anything that only needs to be setup once here.
 	 */
 	@Override
 	public void robotInit () {
-
+		// TODO: Create a new controller object (port 0) and assign it to the controller variable
+		// TODO: Create a new SwerveController and assign it to the swerve controller variable
 	}
 
 	/**
@@ -19,7 +23,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit () {
-
+		// TODO: Call disable() on the swerve controller object
 	}
 
 	/**
@@ -35,7 +39,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopInit () {
-
+		// TODO: Call enable() on the swerve controller object
 	}
 
 	/**
@@ -44,6 +48,13 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testInit () {
 
+	}
+	
+	/**
+	 * This method is called every iteration, regardless of what state the robot is in, but at the end of every iteration
+	 */
+	public void robotPeriodic() {
+		// TODO: Call update() on the controller object
 	}
 
 	/**
@@ -67,7 +78,16 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic () {
+		try {
+			// TODO: Get the value of the left x-axis and assign it to a double "x1"
+			// TODO: Get the value of the left y-axis and assign it to a double "y1"
+			// TODO: Get the value of the right x-axis and assign it to a double "x2"
 
+			// TODO: Call drive on the swerve controller, passing in x1, y1, and x2
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**

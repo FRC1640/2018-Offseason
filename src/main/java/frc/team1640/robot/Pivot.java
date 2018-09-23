@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDController;
 import frc.team1640.utilities.Vector2;
 
-public class Pivot {
+public abstract class Pivot {
 
 	WPI_TalonSRX driveMotor;
 	WPI_TalonSRX steerMotor;
@@ -39,6 +39,14 @@ public class Pivot {
 	 */
 	public Pivot (Vector2 position, int driveMotorChannel, int steerMotorChannel, int resolverChannel, double minResolverVoltage, double maxResolverVoltage, double angleOffset, boolean reverseDrive, boolean reverseSteer, boolean reverseResolverAngle) {
 		// TODO: Store the position vector of this pivot
+
+		// TODO: Set flip drive to false
+		// TODO: set target angle to 0.0
+		// TODO: Set enabled to true
+
+		// TODO: Set reverse drive motor to reverse drive argument
+		// TODO: Set class variable reverse resolver angle to argument reverse resolver angle
+
 		// TODO: Create a new drive motor instance with its motor channel
 		// TODO: Create a new steering motor instance with its motor channel
 
@@ -49,8 +57,8 @@ public class Pivot {
 				// TODO: Calculate the difference between the target angle and this pivot's angle
 				// TODO: Set the flip drive flag to true if the difference between the target angle and this pivot's angle is between 90 and 270 degrees
 					// This indicates the shortest way for the pivot to reach its target angle is to go to angle on the opposite side of the unit circle
-				// TODO: If flip drive speed flag is true, return the sine of the difference in angles, otherwise return the negative sine of the difference in angles
-					// TODO: Negate this if reverse steer is set
+				// TODO: Calculate the sine of the difference in angles
+				// TODO: If either flipDrive or reverseSteer (but not both), return the negative of the sine, otherwise the positive sine
 				return 0.0;
 			}
 
@@ -60,23 +68,16 @@ public class Pivot {
 			// See derivation in getPivotAngleD method
 		// TODO: Store voltage offset, which is -360 * v_min / (v_max - v_min)
 			// See derivation in getPivotAngleD method
+			// This can also be interpreted as - vSlope * minResolverVoltage
 
 		// TODO: Create a new PIDController and instantiate it with the following values:
-			// TODO: Set P-value to 
-			// TODO: Set I-value to 
+			// TODO: Set P-value to 1.0
+			// TODO: Set I-value to 0.05
 			// TODO: Set D-value to 0.0
 			// TODO: Set F-value to 0.0
 			// TODO: Set the source to the resolver reference
 			// TODO: Set the output to the steer motor reference
 			// TODO: Set the period to 0.02 seconds
-
-		// TODO: Initialize flip drive to false
-		// TODO: Set target angle to 0.0
-		// TODO: Set enabled to true
-
-
-		// TODO: Set reverse drive motor flag
-		// TODO: Set reverse resolver angle flag
 
 	}
 
@@ -95,8 +96,7 @@ public class Pivot {
 	public void enable () {
 		// TODO: Check if the enabled flag is cleared (false) and if so:
 			// TODO: Set the enabled flag to true
-			// TODO: Enable the drive motor
-			// TODO: Enable the steer motor
+			// TODO: Enable the steer pid controller
 	}
 
 	/**
@@ -105,8 +105,7 @@ public class Pivot {
 	public void disable () {
 		// TODO: Check if the enabled flag is set (true) and if so:
 			// TODO: Set the enabled flag to false
-			// TODO: Disable the drive motor
-			// TODO: Disable the steer motor
+			// TODO: Disable the steer pid controller
 	}
 
 	/**
@@ -173,7 +172,7 @@ public class Pivot {
 		
 		// TODO: Calculate and return the angle of this pivot
 			// angle = (voltageSlope * voltage) + voltageOffset
-			// TODO: return 360 - angle if reverse resolver angle is set
+			// TODO: return 360 - angle if reverse resolver angle is set, otherwise return the angle
 
 		return 0.0;
 	}
@@ -200,8 +199,9 @@ public class Pivot {
 	 * @param speed Target speed for this pivot
 	 */
 	public void setSpeed (double speed) {
-		// TODO: Use the set() method on the drive motor object
-			// TODO: Negate the speed if reverse drive motor is set
+		// TODO: If the pivot is not enabled, set speed to 0.0
+		// TODO: Otherwise, if reverseDriveMotor or flipDrive is set (but not both), negate the speed
+		// TODO: Use the set() method on the drive motor object to set the motor speed
 	}
 
 }

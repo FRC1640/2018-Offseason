@@ -145,6 +145,15 @@ public class Vector2 {
 
 	/**
 	 * 
+	 * @return Returns a reference to this vector
+	 */
+	public Vector2 reset () {
+		// TODO: Set the x and y values of this to 0.0, and return a reference to this
+		return null;
+	}
+
+	/**
+	 * 
 	 * @return Returns a reference to this vector.
 	 */
 	public Vector2 unitVector () {

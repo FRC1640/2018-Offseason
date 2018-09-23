@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDController;
 import frc.team1640.utilities.Vector2;
 
-public abstract class Pivot {
+public class Pivot {
 
 	WPI_TalonSRX driveMotor;
 	WPI_TalonSRX steerMotor;

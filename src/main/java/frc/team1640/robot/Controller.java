@@ -76,4 +76,8 @@ public class Controller {
         }
     }
 
+    public int getPOV () {
+        return controller.getPOV();
+    }
+
 }

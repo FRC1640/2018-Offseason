@@ -1,4 +1,4 @@
-package frc.team1640.robot.states;
+package frc.team1640.states;
 
 public class TeleopState implements IControlState {
 

@@ -1,6 +1,6 @@
 package frc.team1640.robot;
 
-import frc.team1640.robot.states.RobotState;
+import frc.team1640.states.RobotState;
 
 public class RobotImpl extends Robot {
 

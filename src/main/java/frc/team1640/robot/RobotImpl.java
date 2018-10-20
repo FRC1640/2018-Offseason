@@ -1,9 +1,17 @@
 package frc.team1640.robot;
 
+import frc.team1640.robot.states.RobotState;
+
 public class RobotImpl extends Robot {
 
 	Controller controller;
 	SwerveController swerveController;
+
+	private static RobotState robotState;
+
+	public static RobotState getState () {
+		return robotState;
+	}
 
 	/**
 	 * This method is called once when the robot first starts up. 
@@ -11,10 +19,10 @@ public class RobotImpl extends Robot {
 	 */
 	@Override
 	public void robotInit () {
-		// TODO: Create a new controller object (port 0) and assign it to the controller variable
-		// TODO: Create a new SwerveController and assign it to the swerve controller variable
-		controller = new Controller(0);
-		swerveController = new SwerveControllerImpl();
+		// controller = new Controller(0);
+		// swerveController = new SwerveControllerImpl();
+
+		robotState = RobotState.DISABLED;
 	}
 
 	/**
@@ -23,8 +31,9 @@ public class RobotImpl extends Robot {
 	 */
 	@Override
 	public void disabledInit () {
-		// TODO: Call disable() on the swerve controller object
-		swerveController.disable();
+		// swerveController.disable();
+		robotState = RobotState.DISABLED;
+		robotState.init();
 	}
 
 	/**
@@ -32,7 +41,8 @@ public class RobotImpl extends Robot {
 	 */
 	@Override
 	public void autonomousInit () {
-
+		robotState = RobotState.AUTONOMOUS;
+		robotState.init();
 	}
 
 	/**
@@ -40,8 +50,9 @@ public class RobotImpl extends Robot {
 	 */
 	@Override
 	public void teleopInit () {
-		// TODO: Call enable() on the swerve controller object
-		swerveController.enable();
+		// swerveController.enable();
+		robotState = RobotState.TELEOP;
+		robotState.init();
 	}
 
 	/**
@@ -49,14 +60,14 @@ public class RobotImpl extends Robot {
 	 */
 	@Override
 	public void testInit () {
-
+		robotState = RobotState.TEST;
+		robotState.init();
 	}
 	
 	/**
 	 * This method is called every iteration, regardless of what state the robot is in, but at the end of every iteration
 	 */
 	public void robotPeriodic() {
-		// TODO: Call update() on the controller object
 		controller.update();
 	}
 
@@ -65,7 +76,8 @@ public class RobotImpl extends Robot {
 	 */
 	@Override
 	public void disabledPeriodic () {
-
+		robotState = RobotState.DISABLED;
+		robotState.update();
 	}
 	
 	/**
@@ -73,7 +85,8 @@ public class RobotImpl extends Robot {
 	 */
 	@Override
 	public void autonomousPeriodic () {
-
+		robotState = RobotState.AUTONOMOUS;
+		robotState.update();
 	}
 
 	/**
@@ -81,20 +94,18 @@ public class RobotImpl extends Robot {
 	 */
 	@Override
 	public void teleopPeriodic () {
-		try {
-			// TODO: Get the value of the left x-axis and assign it to a double "x1"
-			// TODO: Get the value of the left y-axis and assign it to a double "y1"
-			// TODO: Get the value of the right x-axis and assign it to a double "x2"
-			double x1 = controller.getAxis(Controller.Axis.LX);
-			double y1 = controller.getAxis(Controller.Axis.LY);
-			double x2 = controller.getAxis(Controller.Axis.RX);
+		robotState = RobotState.TELEOP;
+		robotState.update();
 
-			// TODO: Call drive on the swerve controller, passing in x1, y1, and x2
-			swerveController.drive(x1, y1, x2);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+		// try {
+		// 	double x1 = controller.getAxis(Controller.Axis.LX);
+		// 	double y1 = controller.getAxis(Controller.Axis.LY);
+		// 	double x2 = controller.getAxis(Controller.Axis.RX);
+
+		// 	swerveController.drive(x1, y1, x2);
+		// } catch (Exception e) {
+		// 	e.printStackTrace();
+		// }
 	}
 
 	/**
@@ -102,7 +113,8 @@ public class RobotImpl extends Robot {
 	 */
 	@Override
 	public void testPeriodic () {
-
+		robotState = RobotState.TEST;
+		robotState.update();
 	}
 	
 }

@@ -1,11 +1,14 @@
 package frc.team1640.robot;
 
+import java.util.ArrayList;
+
 import frc.team1640.states.RobotState;
+import frc.team1640.systems.DriveSystem;
+import frc.team1640.systems.ISystem;
 
 public class RobotImpl extends Robot {
 
-	Controller controller;
-	SwerveController swerveController;
+	public ArrayList<ISystem> systemList;
 
 	private static RobotState robotState;
 
@@ -19,10 +22,10 @@ public class RobotImpl extends Robot {
 	 */
 	@Override
 	public void robotInit () {
-		// controller = new Controller(0);
-		// swerveController = new SwerveControllerImpl();
-
 		robotState = RobotState.DISABLED;
+
+		systemList = new ArrayList<ISystem>();
+		systemList.add(new DriveSystem());
 	}
 
 	/**
@@ -31,9 +34,9 @@ public class RobotImpl extends Robot {
 	 */
 	@Override
 	public void disabledInit () {
-		// swerveController.disable();
 		robotState = RobotState.DISABLED;
-		robotState.init();
+		for (ISystem sys : systemList) { sys.disabledInit(); }
+		
 	}
 
 	/**
@@ -42,7 +45,7 @@ public class RobotImpl extends Robot {
 	@Override
 	public void autonomousInit () {
 		robotState = RobotState.AUTONOMOUS;
-		robotState.init();
+		for (ISystem sys : systemList) { sys.autonInit(); }
 	}
 
 	/**
@@ -52,7 +55,7 @@ public class RobotImpl extends Robot {
 	public void teleopInit () {
 		// swerveController.enable();
 		robotState = RobotState.TELEOP;
-		robotState.init();
+		for (ISystem sys : systemList) { sys.teleopInit(); }
 	}
 
 	/**
@@ -61,14 +64,15 @@ public class RobotImpl extends Robot {
 	@Override
 	public void testInit () {
 		robotState = RobotState.TEST;
-		robotState.init();
+		for (ISystem sys : systemList) { sys.testInit(); }
 	}
 	
 	/**
 	 * This method is called every iteration, regardless of what state the robot is in, but at the end of every iteration
 	 */
 	public void robotPeriodic() {
-		controller.update();
+		for (ISystem sys : systemList) { sys.statelessUpdate(); }
+		Controller.updateAllControllers();
 	}
 
 	/**
@@ -77,7 +81,7 @@ public class RobotImpl extends Robot {
 	@Override
 	public void disabledPeriodic () {
 		robotState = RobotState.DISABLED;
-		robotState.update();
+		for (ISystem sys : systemList) { sys.disabledUpdate(); }
 	}
 	
 	/**
@@ -86,7 +90,7 @@ public class RobotImpl extends Robot {
 	@Override
 	public void autonomousPeriodic () {
 		robotState = RobotState.AUTONOMOUS;
-		robotState.update();
+		for (ISystem sys : systemList) { sys.autonUpdate(); }
 	}
 
 	/**
@@ -95,17 +99,7 @@ public class RobotImpl extends Robot {
 	@Override
 	public void teleopPeriodic () {
 		robotState = RobotState.TELEOP;
-		robotState.update();
-
-		// try {
-		// 	double x1 = controller.getAxis(Controller.Axis.LX);
-		// 	double y1 = controller.getAxis(Controller.Axis.LY);
-		// 	double x2 = controller.getAxis(Controller.Axis.RX);
-
-		// 	swerveController.drive(x1, y1, x2);
-		// } catch (Exception e) {
-		// 	e.printStackTrace();
-		// }
+		for (ISystem sys : systemList) { sys.teleopUpdate(); }
 	}
 
 	/**
@@ -114,7 +108,7 @@ public class RobotImpl extends Robot {
 	@Override
 	public void testPeriodic () {
 		robotState = RobotState.TEST;
-		robotState.update();
+		for (ISystem sys : systemList) { sys.testUpdate(); }
 	}
 	
 }

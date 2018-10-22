@@ -39,6 +39,11 @@ public class Vector2Impl extends Vector2 {
 		return new Vector2Impl(this);
 	}
 
+	public void set (double x, double y) {
+		this.x = x;
+		this.y = y;
+	}
+
 	/**
 	 * 
 	 * @return Returns the x value of this vector.

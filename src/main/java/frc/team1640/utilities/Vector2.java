@@ -38,6 +38,10 @@ public class Vector2 {
 		return null;
 	}
 
+	public void set (double x, double y) {
+		// TODO: 
+	}
+
 	/**
 	 * 
 	 * @return Returns the x value of this vector.

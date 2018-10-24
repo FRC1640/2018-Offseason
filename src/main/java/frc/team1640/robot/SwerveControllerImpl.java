@@ -23,6 +23,12 @@ public class SwerveControllerImpl extends SwerveController {
 
 	public void drive (double x1, double y1, double x2) {
 
+		// Clamp x1, y1, and x2 to be between -1 and 1
+		// Really only matters for x2, since that can go over for gyro-correction
+		x1 = Math.max(-1.0, Math.min(x1, 1.0));
+		y1 = Math.max(-1.0, Math.min(y1, 1.0));
+		x2 = Math.max(-1.0, Math.min(x2, 1.0));
+
 		if (swerveMode != SwerveMode.NORMAL) { /* ERROR */ return; }
 
 		Vector2 tVec = new Vector2Impl(x1, y1);
@@ -37,6 +43,7 @@ public class SwerveControllerImpl extends SwerveController {
 			max = Math.max(max, vt.magnitude());
 		}
 
+		// TODO: Find a different normalization
 		if (max > 1.0) {
 			for (Pivot piv : pivotMap.keySet()) { pivotMap.get(piv).multiply(1.0/max); }
 		}

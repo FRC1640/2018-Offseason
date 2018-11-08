@@ -1,11 +1,21 @@
 package frc.team1640.robot;
 
+import java.util.ArrayList;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
+import frc.team1640.states.RobotState;
+import frc.team1640.systems.DriveSystem;
+import frc.team1640.systems.ISystem;
 
 public class Robot extends IterativeRobot {
 
-	Controller controller;
-	SwerveController swerveController;
+	public ArrayList<ISystem> systemList;
+
+	private static RobotState robotState;
+
+	public static RobotState getState () {
+		return robotState;
+	}
 
 	/**
 	 * This method is called once when the robot first starts up. 
@@ -13,8 +23,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit () {
-		// TODO: Create a new controller object (port 0) and assign it to the controller variable
-		// TODO: Create a new SwerveController and assign it to the swerve controller variable
+		robotState = RobotState.DISABLED;
+
+		systemList = new ArrayList<ISystem>();
+		systemList.add(new DriveSystem());
 	}
 
 	/**
@@ -23,7 +35,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit () {
-		// TODO: Call disable() on the swerve controller object
+		robotState = RobotState.DISABLED;
+		for (ISystem sys : systemList) { sys.disabledInit(); }
+		
 	}
 
 	/**
@@ -31,7 +45,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit () {
-
+		robotState = RobotState.AUTONOMOUS;
+		for (ISystem sys : systemList) { sys.autonInit(); }
 	}
 
 	/**
@@ -39,7 +54,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopInit () {
-		// TODO: Call enable() on the swerve controller object
+		// swerveController.enable();
+		robotState = RobotState.TELEOP;
+		for (ISystem sys : systemList) { sys.teleopInit(); }
 	}
 
 	/**
@@ -47,14 +64,16 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testInit () {
-
+		robotState = RobotState.TEST;
+		for (ISystem sys : systemList) { sys.testInit(); }
 	}
 	
 	/**
 	 * This method is called every iteration, regardless of what state the robot is in, but at the end of every iteration
 	 */
 	public void robotPeriodic() {
-		// TODO: Call update() on the controller object
+		for (ISystem sys : systemList) { sys.statelessUpdate(); }
+		Controller.updateAllControllers();
 	}
 
 	/**
@@ -62,7 +81,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledPeriodic () {
-
+		robotState = RobotState.DISABLED;
+		for (ISystem sys : systemList) { sys.disabledUpdate(); }
 	}
 	
 	/**
@@ -70,7 +90,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic () {
-
+		robotState = RobotState.AUTONOMOUS;
+		for (ISystem sys : systemList) { sys.autonUpdate(); }
 	}
 
 	/**
@@ -78,16 +99,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic () {
-		try {
-			// TODO: Get the value of the left x-axis and assign it to a double "x1"
-			// TODO: Get the value of the left y-axis and assign it to a double "y1"
-			// TODO: Get the value of the right x-axis and assign it to a double "x2"
-
-			// TODO: Call drive on the swerve controller, passing in x1, y1, and x2
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+		robotState = RobotState.TELEOP;
+		for (ISystem sys : systemList) { sys.teleopUpdate(); }
 	}
 
 	/**
@@ -95,7 +108,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic () {
-
+		robotState = RobotState.TEST;
+		for (ISystem sys : systemList) { sys.testUpdate(); }
 	}
 	
 }

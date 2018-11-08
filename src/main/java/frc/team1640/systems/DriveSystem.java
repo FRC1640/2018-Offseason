@@ -5,9 +5,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.team1640.robot.Controller;
 import frc.team1640.robot.Controller.Axis;
 import frc.team1640.robot.SwerveController;
-import frc.team1640.robot.SwerveControllerImpl;
 import frc.team1640.utilities.Vector2;
-import frc.team1640.utilities.Vector2Impl;
 
 public class DriveSystem implements ISystem {
 
@@ -25,12 +23,12 @@ public class DriveSystem implements ISystem {
 	public DriveSystem () {
 		// Get reference to controller & create new swerve controller
 		driverController = Controller.getController(0);
-		swerveController = new SwerveControllerImpl();
+		swerveController = new SwerveController();
 
 		networkTable = NetworkTableInstance.getDefault().getTable("drive_system");
 
 		// Create a vector for deadband calculations
-		leftJsDeadband = new Vector2Impl();
+		leftJsDeadband = new Vector2();
 		// Set op-mode to "normal"
 		opMode = OpMode.NORMAL;
 	}
@@ -96,6 +94,15 @@ public class DriveSystem implements ISystem {
 			} break;
 
 			case CALIBRATION: {
+
+				double rotationSpeed = networkTable.getEntry("ROTATION_SPEED").getDouble(0.0);
+				double driveSpeed = networkTable.getEntry("DRIVE_SPEED").getDouble(0.0);												
+				
+				swerveController.setRotationRaw(rotationSpeed);
+				swerveController.setDriveRaw(driveSpeed);
+
+				
+				
 
 			} break;
 

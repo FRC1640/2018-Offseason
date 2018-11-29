@@ -17,8 +17,15 @@ public class Controller {
 
     private XboxController controller;
     private HashMap<Button,Boolean> prevButtonMap;
+    
+    private static HashMap<Integer,Controller> controllerMap = new HashMap<Integer,Controller>();
 
-    public Controller (int port) {
+    public static Controller getController (int port) {
+        if (!controllerMap.containsKey(port)) { controllerMap.put(port, new Controller(port)); }
+        return controllerMap.get(port);
+    }
+
+    private Controller (int port) {
         controller = new XboxController(port);
         prevButtonMap = new HashMap<Button,Boolean>();
     }
@@ -73,6 +80,16 @@ public class Controller {
             case LT: return controller.getTriggerAxis(Hand.kLeft);
             case RT: return controller.getTriggerAxis(Hand.kRight);
             default: return 0.0;
+        }
+    }
+
+    public int getPOV () {
+        return controller.getPOV();
+    }
+
+    public static void updateAllControllers () {
+        for (int i : controllerMap.keySet()) {
+            controllerMap.get(i).update();
         }
     }
 

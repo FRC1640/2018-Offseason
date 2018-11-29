@@ -1,0 +1,23 @@
+SO
+
+2 solenoids
+1 retracts
+1 extends
+
+2 motors
+1 left
+1 right
+
+When bumper LEFT is pressed/held
+- Retract solenoids
+
+When bumper RIGHT is pressed/held
+- Extend solenoids
+
+When trigger LEFT is pressed/held
+- Power motors in;
+    - Speed based exponentially on analog input of trigger
+
+When trigger RIGHT is pressed/held
+- Power motors out
+    - Speed based exponentially on analog input of trigger

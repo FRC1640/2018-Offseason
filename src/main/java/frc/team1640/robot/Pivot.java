@@ -90,7 +90,7 @@ public class Pivot {
 	 * 
 	 */
 	public void enable () {
-		if (!enabled) {
+		if (!enabled) { 
 			enabled = true;
 			steerPidController.enable();
 		}

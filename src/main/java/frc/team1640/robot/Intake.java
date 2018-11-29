@@ -5,35 +5,42 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Solenoid;
 
-public class Intake { 
+public class Intake {
 
     private Solenoid solenoidClose;
-	private Solenoid solenoidOpen;
-	private WPI_TalonSRX leftMotor;
+    private Solenoid solenoidOpen;
+    private WPI_TalonSRX leftMotor;
     private WPI_TalonSRX rightMotor;
 
     private boolean enable;
 
-
-    public Intake (int solenoidCloseChannel, int solenoidOpenChannel, int leftMotorChannel, int rightMotorChannel) {
+    public Intake(int solenoidCloseChannel, int solenoidOpenChannel, int leftMotorChannel, int rightMotorChannel) {
         solenoidClose = new Solenoid(solenoidCloseChannel);
         solenoidOpen = new Solenoid(solenoidOpenChannel);
-		leftMotor = new WPI_TalonSRX(leftMotorChannel);
+        leftMotor = new WPI_TalonSRX(leftMotorChannel);
         rightMotor = new WPI_TalonSRX(rightMotorChannel);
 
-		leftMotor.setNeutralMode(NeutralMode.Brake);
-		rightMotor.setNeutralMode(NeutralMode.Brake);
+        leftMotor.setNeutralMode(NeutralMode.Brake);
+        rightMotor.setNeutralMode(NeutralMode.Brake);
     }
 
     public boolean getSolenoidOpenState() {
         return solenoidOpen.get();
     }
 
-    public void operateSolenoid(boolean solenoidState) {
+    private void operateSolenoid(boolean solenoidState) {
         if (enable) {
             solenoidOpen.set(solenoidState);
             solenoidClose.set(!solenoidState);
         }
+    }
+
+    public void openIntake() {
+        operateSolenoid(true);
+    }
+
+    public void closeIntake() {
+        operateSolenoid(false);
     }
 
     public void driveMotors(double motorSpeed) {
@@ -44,13 +51,13 @@ public class Intake {
     }
 
     public double getLeftMotorCurrent() {
-		return leftMotor.getOutputCurrent();
+        return leftMotor.getOutputCurrent();
     }
-    
+
     public double getRightMotorCurrent() {
-		return rightMotor.getOutputCurrent();
+        return rightMotor.getOutputCurrent();
     }
-    
+
     public void enable() {
         enable = true;
     }

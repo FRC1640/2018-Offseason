@@ -18,7 +18,6 @@ public class IntakeSystem implements ISystem {
 
 	private Controller driverController;
 	private Intake intake;
-	private Vector2 leftJsDeadband;
 	private OpMode opMode;
 	private NetworkTable networkTable;
 

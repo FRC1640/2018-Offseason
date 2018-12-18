@@ -38,7 +38,7 @@ public class IntakeSystem implements ISystem {
 
 	@Override
 	public void disabledInit() {
-		swerveController.disable();
+		intake.disable();
 	}
 
 	@Override

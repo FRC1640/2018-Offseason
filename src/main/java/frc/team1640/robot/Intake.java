@@ -5,6 +5,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Solenoid;
 
+/**
+ * A class to control the robot intake.
+ * 2 solenoids for opening and closing intake
+ * 2 motors for intaking cubes
+ */
+
 public class Intake {
 
     private Solenoid solenoidClose;

@@ -26,7 +26,8 @@ public class Robot extends IterativeRobot {
 		robotState = RobotState.DISABLED;
 
 		systemList = new ArrayList<ISystem>();
-		systemList.add(new DriveSystem());
+		// systemList.add(new DriveSystem());
+		systemList.add(new IntakeSystem());
 	}
 
 	/**

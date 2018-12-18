@@ -15,7 +15,7 @@ public class Controller {
         LX, LY, RX, RY, LT, RT;
     }
 
-    private XboxController controller;
+    public XboxController controller; //Changed from private to public visibility
     private HashMap<Button,Boolean> prevButtonMap;
     
     private static HashMap<Integer,Controller> controllerMap = new HashMap<Integer,Controller>();

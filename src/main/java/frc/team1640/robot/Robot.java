@@ -26,6 +26,7 @@ public class Robot extends IterativeRobot {
 		robotState = RobotState.DISABLED;
 
 		systemList = new ArrayList<ISystem>();
+		systemList.add(new LiftSystem());
 		systemList.add(new DriveSystem());
 	}
 

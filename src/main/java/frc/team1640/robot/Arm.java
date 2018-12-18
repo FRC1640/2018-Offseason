@@ -30,9 +30,9 @@ public class Arm {
 	// public static final double INCHES_PER_COUNT = 1.0 / COUNTS_PER_INCH;
 	PIDController armPidController;	
 
-	public Arm(int motorLeftChannel, int motorRightChannel, int angleSensorChannel, int brakeSolenoidChannel, boolean reversePrimary, boolean reverseSecondary, Lift lift) {
+	public Arm(int  motorLeftChannel, int motorRightChannel, int angleSensorChannel, int brakeSolenoidChannel, boolean reversePrimary, boolean reverseSecondary, Lift lift) {
 		armPosition = ArmPosition.Start;
-		motorLeft = new WPI_TalonSRX(motorLeftChannel); // 11
+		// motorLeft = new WPI_TalonSRX(// motorLeftChannel); // 11
 		motorRight = new WPI_TalonSRX(motorRightChannel); // 15
 		brakeSolenoid = new Solenoid(brakeSolenoidChannel); // 0
 		angleSensor = new AnalogInput(angleSensorChannel) {
@@ -50,10 +50,10 @@ public class Arm {
 		};// 6
 
 		
-		motorLeft.setInverted(reversePrimary);
+		// motorLeft.setInverted(reversePrimary);
 		motorRight.setInverted(reverseSecondary);
 		
-		motorLeft.setNeutralMode(NeutralMode.Brake);
+		// motorLeft.setNeutralMode(NeutralMode.Brake);
 		motorRight.setNeutralMode(NeutralMode.Brake);
 
 		// http://first.wpi.edu/FRC/roborio/release/docs/java/
@@ -66,7 +66,7 @@ public class Arm {
 					value /= Math.abs(value);
 				}
 				
-				motorLeft.set(value);
+				// motorLeft.set(value);
 				motorRight.set(value);
 			}
 	

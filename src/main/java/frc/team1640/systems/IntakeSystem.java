@@ -63,7 +63,9 @@ public class IntakeSystem implements ISystem {
 	@Override
 	public void teleopUpdate() {
 
-		opMode = (networkTable.getEntry("CALIBRATION_MODE").getBoolean(false)) ? OpMode.CALIBRATION : OpMode.NORMAL;
+		// opMode = (networkTable.getEntry("CALIBRATION_MODE").getBoolean(false)) ? OpMode.CALIBRATION : OpMode.NORMAL;
+		opMode = OpMode.NORMAL;
+
 
 		switch (opMode) {
 

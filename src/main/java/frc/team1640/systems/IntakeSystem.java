@@ -25,7 +25,7 @@ public class IntakeSystem implements ISystem {
 	public IntakeSystem () {
 		// Get reference to controller & create new swerve controller
 		driverController = Controller.getController(0);
-		intake = new Intake();
+		intake = new Intake(4, 1, 4, 5);
 	
 		// Set op-mode to "normal"
 		opMode = OpMode.NORMAL;

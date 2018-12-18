@@ -74,8 +74,8 @@ public class IntakeSystem implements ISystem {
 				boolean rightBumper = driverController.getButtonPressed(Button.RB);
 				boolean leftBumper = driverController.getButtonPressed(Button.LB);
 
-				boolean rightTrigger = driverController.getButtonPressed(Button.RT);
-				boolean leftTrigger = driverController.getButtonPressed(Button.LT);
+				boolean rightTrigger = driverController.getButton(Button.RT);
+				boolean leftTrigger = driverController.getButton(Button.LT);
 				
 				double motorSpeed = 0.5;
 

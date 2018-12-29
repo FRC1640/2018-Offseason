@@ -18,7 +18,7 @@ public class LiftSystem implements ISystem {
 
     @Override
     public void statelessUpdate() {
-
+        arm.update();
     }
 
     @Override
@@ -48,14 +48,18 @@ public class LiftSystem implements ISystem {
 
     @Override
     public void teleopUpdate() {
-        if (opController.getButton(Button.A)) {
+        if (opController.getButtonPressed(Button.A)) {
 			arm.setTarget(ArmPosition.Floor);
 		}
-		else if (opController.getButton(Button.B)) {
+		else if (opController.getButtonPressed(Button.B)) {
 			arm.setTarget(ArmPosition.Switch);
         }
-        else if (opController.getButton(Button.Y)) {
-            arm.setTarget(ArmPosition.Switch);
+        else if (opController.getButtonPressed(Button.Y)) {
+            arm.setTarget(ArmPosition.Start);
+        }
+
+        if(opController.getButtonPressed(Button.X)) {
+            arm.toggleBrake();
         }
     }
 

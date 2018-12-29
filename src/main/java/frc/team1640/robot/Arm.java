@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 
 public class Arm {
 	
-	public static final double CRITICAL_ANGLE = 0.0; //TODO change value
+	public static final double CRITICAL_ANGLE = 90.0; 
 	ArmPosition armPosition;
 	WPI_TalonSRX motorLeft;
 	WPI_TalonSRX motorRight;
@@ -24,6 +24,7 @@ public class Arm {
 	double angle;
 	boolean enabled;
 	double speed;
+	boolean brakeEngaged;
 	public static final double ANGLE_BUFFER = 5.0;
 	public static final double MAX_LIMIT = 25.0;
 	// public static final double COUNTS_PER_INCH = 4 * 4096 / 18;
@@ -32,28 +33,29 @@ public class Arm {
 
 	public Arm(int  motorLeftChannel, int motorRightChannel, int angleSensorChannel, int brakeSolenoidChannel, boolean reversePrimary, boolean reverseSecondary, Lift lift) {
 		armPosition = ArmPosition.Start;
-		// motorLeft = new WPI_TalonSRX(// motorLeftChannel); // 11
+		brakeEngaged = true;
+		motorLeft = new WPI_TalonSRX(motorLeftChannel); // 11
 		motorRight = new WPI_TalonSRX(motorRightChannel); // 15
-		brakeSolenoid = new Solenoid(brakeSolenoidChannel); // 0
+		brakeSolenoid = new Solenoid(0, brakeSolenoidChannel); // 0 
 		angleSensor = new AnalogInput(angleSensorChannel) {
 			@Override
 			public double pidGet() {
-				double target2 = (lift.getLiftHeightInInches() < Lift.CRITICAL_HEIGHT) ? CRITICAL_ANGLE : armPosition.angleSetPoint;
+				double target2 = (lift.getLiftHeightInInches() < Lift.CRITICAL_HEIGHT) ? Math.min(armPosition.angleSetPoint, CRITICAL_ANGLE) : armPosition.angleSetPoint;
 				double dif = getAngle() - target2;
+				// System.out.println(dif);
 				if(dif < 5) {
-					brakeSolenoid.set(true);
+					// brakeSolenoid.set(true);
 					disable();		
 					dif = 0;		
 				}
 				return dif;
 			}
 		};// 6
-
 		
-		// motorLeft.setInverted(reversePrimary);
+		motorLeft.setInverted(reversePrimary);
 		motorRight.setInverted(reverseSecondary);
 		
-		// motorLeft.setNeutralMode(NeutralMode.Brake);
+		motorLeft.setNeutralMode(NeutralMode.Brake);
 		motorRight.setNeutralMode(NeutralMode.Brake);
 
 		// http://first.wpi.edu/FRC/roborio/release/docs/java/
@@ -65,9 +67,10 @@ public class Arm {
 				if(Math.abs(value) > 1.0) {
 					value /= Math.abs(value);
 				}
+				value *= 0.1;
 				
-				// motorLeft.set(value);
-				motorRight.set(value);
+				motorLeft.set(-value);
+				motorRight.set(-value);
 			}
 	
 		}; 
@@ -105,12 +108,13 @@ public class Arm {
 
 	public void setTarget(ArmPosition armPosition) {
 		this.armPosition = armPosition;
-		brakeSolenoid.set(false);
+		// brakeSolenoid.set(false);
 		enable();
 	}
 
 	public void update() {
-
+		// System.out.format("Angle: %3.2f Target: %3.2f\n", getAngle(), armPosition.angleSetPoint);
+		brakeSolenoid.set(brakeEngaged);
 	}
 
 	// This assumes the highest point is last in the list
@@ -125,5 +129,9 @@ public class Arm {
 		int ord = armPosition.ordinal();
 		if (ord == 0) { return; }
 		armPosition = ArmPosition.values()[ord-1];
+	}
+
+	public void toggleBrake() {
+		brakeEngaged = !brakeEngaged;
 	}
 }	

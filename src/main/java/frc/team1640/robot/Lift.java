@@ -7,7 +7,7 @@ public class Lift {
 
     public static final double COUNTS_PER_INCH = 4 * 4096 / 18;
 	public static final double INCHES_PER_COUNT = 1.0 / COUNTS_PER_INCH;
-	public static final double CRITICAL_HEIGHT = 0.0; //TODO change value
+	public static final double CRITICAL_HEIGHT = 50.6; 
 
 	public static enum OperatingMode {
 		MANUAL,

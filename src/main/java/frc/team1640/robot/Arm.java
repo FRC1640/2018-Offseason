@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 
 public class Arm {
 	
-	public static final double CRITICAL_ANGLE = 90.0; 
+	public static final double CRITICAL_ANGLE = 70.0; 
 	ArmPosition armPosition;
 	WPI_TalonSRX motorLeft;
 	WPI_TalonSRX motorRight;
@@ -42,12 +42,15 @@ public class Arm {
 			public double pidGet() {
 				double target2 = (lift.getLiftHeightInInches() < Lift.CRITICAL_HEIGHT) ? Math.min(armPosition.angleSetPoint, CRITICAL_ANGLE) : armPosition.angleSetPoint;
 				double dif = getAngle() - target2;
+				System.out.println("Dif: " + dif);
 				// System.out.println(dif);
-				if(dif < 5) {
+				if(Math.abs(dif) < 5) {
 					// brakeSolenoid.set(true);
 					disable();		
 					dif = 0;		
 				}
+
+				// System.out.println("Dif: " + dif);
 				return dif;
 			}
 		};// 6
@@ -67,7 +70,9 @@ public class Arm {
 				if(Math.abs(value) > 1.0) {
 					value /= Math.abs(value);
 				}
-				value *= 0.1;
+				value *= 0.4;
+
+				// System.out.println("Pid Out: " + value);
 				
 				motorLeft.set(-value);
 				motorRight.set(-value);
@@ -76,7 +81,7 @@ public class Arm {
 		}; 
 		
 		armPidController = new PIDController(1.0, 0.05, 0.0, 0.0, angleSensor, pidOutput, 0.02);
-		
+		armPidController.enable();
 	}
 
 	public static enum ArmPosition {
@@ -93,7 +98,9 @@ public class Arm {
 	}
 
 	public double getAngle() {
-		return ((-(360.0 * (angleSensor.getVoltage() - minVoltage) / dVoltage) + 360.0 - 0) % 360.0) - 27.33;
+		double v = angleSensor.getVoltage();
+		// System.out.println("Voltage: " + v);
+		return ((-(360.0 * (v - minVoltage) / dVoltage) + 360.0 - 0) % 360.0) - 27.33;
 	}	
 
 	public void enable() {

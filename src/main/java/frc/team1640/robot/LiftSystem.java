@@ -13,12 +13,13 @@ public class LiftSystem implements ISystem {
     public LiftSystem() {
         opController = Controller.getController(1);
         lift = new Lift(true, false);
-        arm = new Arm(11, 15, 6, 0, true, false, lift);
+        arm = new Arm(11, 15, 4, 0, true, false, lift);
     }
 
     @Override
     public void statelessUpdate() {
         arm.update();
+        // lift.update();
     }
 
     @Override
@@ -49,7 +50,7 @@ public class LiftSystem implements ISystem {
     @Override
     public void teleopUpdate() {
         if (opController.getButtonPressed(Button.A)) {
-			arm.setTarget(ArmPosition.Floor);
+            arm.setTarget(ArmPosition.Floor);
 		}
 		else if (opController.getButtonPressed(Button.B)) {
 			arm.setTarget(ArmPosition.Switch);
@@ -60,6 +61,14 @@ public class LiftSystem implements ISystem {
 
         if(opController.getButtonPressed(Button.X)) {
             arm.toggleBrake();
+        }
+
+        if (opController.getButtonPressed(Button.N)) {
+            lift.raiseTarget();
+        }
+
+        if (opController.getButtonPressed(Button.S)) {
+            lift.lowerTarget();
         }
     }
 

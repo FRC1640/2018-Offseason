@@ -91,6 +91,8 @@ public class Lift {
 			case MANUAL: { updateManual(); } break;
 			case MANAGED: { updateManaged(); } break;
 		}
+
+		System.out.format("Lift Height: %.2f Target: %.2f\n", getLiftHeightInInches(), liftTarget);
 	}
 
 	private void updateManual () {

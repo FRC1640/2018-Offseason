@@ -74,9 +74,9 @@ public class Controller {
     public double getAxis (Axis axis) {
         switch (axis) {
             case LX: return controller.getX(Hand.kLeft);
-            case LY: return controller.getY(Hand.kRight);
-            case RX: return controller.getX(Hand.kLeft);
-            case RY: return controller.getY(Hand.kRight);
+            case LY: return -controller.getY(Hand.kLeft);
+            case RX: return controller.getX(Hand.kRight);
+            case RY: return -controller.getY(Hand.kRight);
             case LT: return controller.getTriggerAxis(Hand.kLeft);
             case RT: return controller.getTriggerAxis(Hand.kRight);
             default: return 0.0;

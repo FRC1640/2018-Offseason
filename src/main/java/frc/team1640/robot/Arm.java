@@ -42,7 +42,7 @@ public class Arm {
 			public double pidGet() {
 				double target2 = (lift.getLiftHeightInInches() < Lift.CRITICAL_HEIGHT) ? Math.min(armPosition.angleSetPoint, CRITICAL_ANGLE) : armPosition.angleSetPoint;
 				double dif = getAngle() - target2;
-				System.out.println("Dif: " + dif);
+				// System.out.println("Dif: " + dif);
 				// System.out.println(dif);
 				if(Math.abs(dif) < 5) {
 					// brakeSolenoid.set(true);

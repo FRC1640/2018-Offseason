@@ -78,15 +78,19 @@ public class DriveSystem implements ISystem {
 				double y1 = driverController.getAxis(Axis.LY);
 				double x2 = driverController.getAxis(Axis.RX);
 
+				// System.out.format("(%3.2f, %3.2f, %3.2f)\n", x1, y1, x2);
+
 				// Perform deadbanding on left joystick values
 				leftJsDeadband.set(x1,y1);
 				if (leftJsDeadband.magnitude() < DB_LJS) { leftJsDeadband.reset(); }
 				else { leftJsDeadband.multiply(driveDeadbandCurve(leftJsDeadband.magnitude(), DB_LJS)); }
 
 				// Perform deadbanding on right joystick
-				if (x2 < DB_RJS) { x2 = 0.0; }
+				if (Math.abs(x2) < DB_RJS) { x2 = 0.0; }
 
 				// TODO: Gyro-correction if in a "compatible" mode
+
+
 
 				// Call drive code on swerve controller
 				swerveController.drive(leftJsDeadband.getX(), leftJsDeadband.getY(), x2);

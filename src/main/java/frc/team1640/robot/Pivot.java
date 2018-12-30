@@ -43,7 +43,10 @@ public class Pivot {
 	 */
 	public Pivot (String id, Vector2 position, int driveMotorChannel, int steerMotorChannel, int resolverChannel, double minResolverVoltage, double maxResolverVoltage, double angleOffset, boolean reverseDrive, boolean reverseSteer, boolean reverseResolverAngle) {
 
+		this.id = id;
+
 		this.position = position;
+		this.angleOffset = angleOffset;
 
 		flipDrive = false;
 		targetAngleD = 0.0;
@@ -102,7 +105,7 @@ public class Pivot {
 	public void disable () {
 		if (enabled) {
 			enabled = false;
-			steerPidController.disable();
+			// steerPidController.disable();
 		}
 	}
 
@@ -159,7 +162,7 @@ public class Pivot {
 		double vSlope = 360.0 / (maxResolverVoltage - minResolverVoltage);
 		double vOffset = -vSlope * minResolverVoltage;
 
-		double angle = vSlope * voltage + vOffset;
+		double angle = (vSlope * voltage + vOffset) - angleOffset;
 		return (reverseResolverAngle) ? 360 - angle : angle;
 	}
 
@@ -168,7 +171,7 @@ public class Pivot {
 	 * @param angleD Target angle to set in degrees. 0-degrees is east (right), and increases counter-clockwise
 	 */
 	public void setTargetAngleD (double angleD) {
-		targetAngleD = angleD;
+		targetAngleD = (angleD + 360.0) % 360.0;
 	}
 
 	/**
@@ -176,7 +179,7 @@ public class Pivot {
 	 * @param angleR Target angle to set in radians
 	 */
 	public void setTargetAngle (double angleR) {
-		targetAngleD = angleR * 180.0 / Math.PI;
+		setTargetAngleD(Math.toDegrees(angleR));
 	}
 
 	/**
@@ -190,7 +193,7 @@ public class Pivot {
 	}
 
 	public void setRotationSpeed (double speed) {
-		if (!enabled) { speed = 0.0; }
+		// if (!enabled) { speed = 0.0; }
 		steerMotor.set(speed);
 	}
 

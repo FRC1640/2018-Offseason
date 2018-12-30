@@ -22,10 +22,10 @@ public class SwerveController {
 		swerveMode = SwerveMode.NORMAL;
 		pivotMap = new HashMap<Pivot,Vector2>();
 
-		pivotMap.put(new Pivot("FL", new Vector2(-W,L).multiply(0.5), 13, 10, 0, 0.20019529200000002, 4.737548343, 0.0, false, false, false), null); // FL
-		pivotMap.put(new Pivot("FR", new Vector2(W,L).multiply(0.5), 12, 9, 1, 0.20385740100000002, 4.729003422, 0.0, false, false, false), null); // FR
-		pivotMap.put(new Pivot("BL", new Vector2(-W,-L).multiply(0.5), 2, 6, 2, 0.209960916, 4.742431155, 180.0, false, false, false), null); // BL
-		pivotMap.put(new Pivot("BR", new Vector2(W,-L).multiply(0.5), 3, 7, 3, 0.205078104, 4.739989749, 180.0, false, false, false), null); // BR
+		pivotMap.put(new Pivot("FL", new Vector2(-W,L).multiply(0.5), 13, 10, 0, 0.20019529200000002, 4.737548343, 90.0, false, false, true), null); // FL
+		pivotMap.put(new Pivot("FR", new Vector2(W,L).multiply(0.5), 12, 9, 1, 0.20385740100000002, 4.729003422, 90.0, false, false, true), null); // FR
+		pivotMap.put(new Pivot("BL", new Vector2(-W,-L).multiply(0.5), 2, 6, 2, 0.209960916, 4.742431155, 270.0, false, false, true), null); // BL
+		pivotMap.put(new Pivot("BR", new Vector2(W,-L).multiply(0.5), 3, 7, 3, 0.205078104, 4.739989749, 270.0, false, false, true), null); // BR
 	}
 
 	public void setSwerveMode (SwerveMode sm) {
@@ -34,11 +34,15 @@ public class SwerveController {
 
 	public void drive (double x1, double y1, double x2) {
 
+		// disable();
+
 		// Clamp x1, y1, and x2 to be between -1 and 1
 		// Really only matters for x2, since that can go over for gyro-correction
 		x1 = Math.max(-1.0, Math.min(x1, 1.0));
 		y1 = Math.max(-1.0, Math.min(y1, 1.0));
 		x2 = Math.max(-1.0, Math.min(x2, 1.0));
+
+		// System.out.format("(%3.2f, %3.2f, %3.2f)\n", x1, y1, x2);
 
 		if (swerveMode != SwerveMode.NORMAL) { /* ERROR */ return; }
 
@@ -59,11 +63,25 @@ public class SwerveController {
 			for (Pivot piv : pivotMap.keySet()) { pivotMap.get(piv).multiply(1.0/max); }
 		}
 
+
+
 		for (Pivot piv : pivotMap.keySet()) {
 			Vector2 v = pivotMap.get(piv);
 			piv.setSpeed(v.magnitude());
 			piv.setTargetAngle(v.getAngle());
 		}
+
+		String s = "";
+		for (Pivot piv : pivotMap.keySet()) {
+			s += String.format("%s : %3.2f \t", piv.getId(), piv.getTargetAngleD());
+		}
+		System.out.println(s);
+
+		s = "";
+		for (Pivot piv : pivotMap.keySet()) {
+			s += String.format("%s : %3.2f \t", piv.getId(), piv.getPivotAngleD());
+		}
+		System.out.println(s);
 
 	}
 
